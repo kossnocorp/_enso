@@ -1,42 +1,42 @@
-const assert = require('power-assert')
-const loop = require('.')
-const ch = require('../ch')
+var assert = require('power-assert')
+var loop = require('./')
+var ch = require('../ch')
 
-describe('loop', () => {
+describe('loop', function() {
   var actionsCh
-  beforeEach(() => {
+  beforeEach(function() {
     actionsCh = ch()
   })
 
-  it('passes state modified by putted actions', (done) => {
-    loop(actionsCh, [], (state) => {
+  it('passes state modified by putted actions', function(done) {
+    loop(actionsCh, [], function(state) {
       assert.deepEqual(state, [1, 2])
       done()
     })
 
-    actionsCh.put((state) => {
+    actionsCh.put(function(state) {
       return state.concat(1)
     })
 
-    actionsCh.put((state) => {
+    actionsCh.put(function(state) {
       return state.concat(2)
     })
   })
 
-  it('passes next state once it is ready', (done) => {
-    const render = sinon.spy()
+  it('passes next state once it is ready', function(done) {
+    var render = sinon.spy()
     loop(actionsCh, [], render)
 
-    actionsCh.put((state) => {
+    actionsCh.put(function(state) {
       return state.concat(1)
     })
 
-    setTimeout(() => {
-      actionsCh.put((state) => {
+    setTimeout(function() {
+      actionsCh.put(function(state) {
         return state.concat(2)
       })
 
-      setTimeout(() => {
+      setTimeout(function() {
         assert(render.calledWith([1]))
         assert(render.calledWith([1, 2]))
         done()
@@ -44,62 +44,62 @@ describe('loop', () => {
     }, 50)
   })
 
-  it('passes previous state', () => {
-    const render = sinon.spy()
-    const states = []
-    loop(actionsCh, [], (state, prevState) => {
+  it('passes previous state', function() {
+    var render = sinon.spy()
+    var states = []
+    loop(actionsCh, [], function(state, prevState) {
       states.push([state, prevState])
     })
 
-    actionsCh.put((state) => {
+    actionsCh.put(function(state) {
       return state.concat(1)
     })
 
-    setTimeout(() => {
-      actionsCh.put((state) => {
+    setTimeout(function() {
+      actionsCh.put(function(state) {
         return state.concat(2)
       })
 
-      setTimeout(() => {
+      setTimeout(function() {
         assert(states[1][1] === states[0][0])
         done()
       }, 50)
     }, 50)
   })
 
-  describe('exception handling', () => {
-    afterEach(() => {
+  describe('exception handling', function() {
+    afterEach(function() {
       window.onerror = null
     })
 
-    context('when rescue function is not passed', () => {
-      it('throw a global exception if action is failed', (done) => {
-        window.onerror = (e) => {
+    context('when rescue function is not passed', function() {
+      it('throw a global exception if action is failed', function(done) {
+        window.onerror = function(e) {
           assert(e.toString().match(/ReferenceError/))
           done()
         }
 
-        loop(actionsCh, [], () => {})
-        actionsCh.put(() => { nope() })
+        loop(actionsCh, [], function() {})
+        actionsCh.put(function() { nope() })
       })
     })
 
-    context('when rescue function is not passed', () => {
-      it('pass an exception to rescue function', (done) => {
-        loop(actionsCh, [], () => {}, (e) => {
+    context('when rescue function is not passed', function() {
+      it('pass an exception to rescue function', function(done) {
+        loop(actionsCh, [], function() {}, function(e) {
           assert(e.toString().match(/ReferenceError/))
           done()
         })
-        actionsCh.put(() => { nope() })
+        actionsCh.put(function() { nope() })
       })
 
-      it('do not throw a global exception', (done) => {
+      it('do not throw a global exception', function(done) {
         window.onerror = sinon.spy()
 
-        loop(actionsCh, [], () => {}, () => {})
-        actionsCh.put(() => { nope() })
+        loop(actionsCh, [], function() {}, function() {})
+        actionsCh.put(function() { nope() })
 
-        setTimeout(() => {
+        setTimeout(function() {
           assert(!window.onerror.called)
           done()
         }, 50)

@@ -1,10 +1,10 @@
-const ch = require('./src/ch')
-const loop = require('./src/loop')
+var ch = require('./src/ch')
+var loop = require('./src/loop')
 
-const actionsCh = ch()
+var actionsCh = ch()
 
 module.exports = {
-  loop(initialState, render, rescue) {
+  loop: function(initialState, render, rescue) {
     loop(ch, render, rescue)
   },
 

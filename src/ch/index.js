@@ -1,22 +1,22 @@
-const EventEmitter = require('events')
+var EventEmitter = require('events')
 
-module.exports = function () {
-  const dispatcher = new EventEmitter()
-  const actionsQueue = []
+module.exports = function() {
+  var dispatcher = new EventEmitter()
+  var actionsQueue = []
 
   return {
-    take() {
-      return new Promise((resolve, reject) => {
-        dispatcher.once('put', () => {
+    take: function() {
+      return new Promise(function(resolve, reject) {
+        dispatcher.once('put', function() {
           resolve(actionsQueue.slice(0))
           actionsQueue.length = 0
         })
       })
     },
 
-    put(action) {
+    put: function(action) {
       actionsQueue.push.apply(actionsQueue, [].concat(action))
-      setImmediate(() => {
+      window.setImmediate(function() {
         dispatcher.emit('put')
       })
     }

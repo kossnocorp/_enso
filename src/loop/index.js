@@ -1,18 +1,20 @@
-module.exports = (ch, initialState, render, rescue) => {
+module.exports = function(ch, initialState, render, rescue) {
   function renderLoop(state) {
     ch.take()
-      .then((actions) => {
-        return actions.reduce((stateAcc, action) => action(stateAcc), state)
+      .then(function(actions) {
+        return actions.reduce(function(stateAcc, action) {
+          return action(stateAcc)
+        }, state)
       })
-      .then((nextState) => {
+      .then(function(nextState) {
         render(nextState, state)
         renderLoop(nextState)
       })
-      .catch((e) => {
+      .catch(function(e) {
         if (rescue) {
           rescue(e)
         } else {
-          setImmediate(() => { throw e })
+          window.setImmediate(function() { throw e })
         }
       })
   }

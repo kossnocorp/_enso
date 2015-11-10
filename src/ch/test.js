@@ -1,28 +1,28 @@
-const assert = require('power-assert')
-const ch = require('.')
+var assert = require('power-assert')
+var ch = require('./')
 
-describe('ch', () => {
-  it('returns an object with take & put functions', () => {
-    const actionsCh = ch()
+describe('ch', function() {
+  it('returns an object with take & put functions', function() {
+    var actionsCh = ch()
     assert(typeof actionsCh == 'object')
     assert(typeof actionsCh.take == 'function')
     assert(typeof actionsCh.put == 'function')
   })
 
-  describe('take & put', () => {
+  describe('take & put', function() {
     var actionsCh
-    beforeEach(() => {
+    beforeEach(function() {
       actionsCh = ch()
     })
 
-    it('returns a promise', () => {
+    it('returns a promise', function() {
       assert(actionsCh.take() instanceof Promise)
     })
 
-    it('resolves the promise when action is putted', (done) => {
-      const action = () => {}
+    it('resolves the promise when action is putted', function(done) {
+      var action = function() {}
       actionsCh.take()
-        .then((nextActions) => {
+        .then(function(nextActions) {
           assert(nextActions[0] === action)
         })
         .then(done)
@@ -30,11 +30,11 @@ describe('ch', () => {
       actionsCh.put(action)
     })
 
-    it('resolves the promise with array of consequentially putted actions', (done) => {
-      const actionA = () => {}
-      const actionB = () => {}
+    it('resolves the promise with array of consequentially putted actions', function(done) {
+      var actionA = function() {}
+      var actionB = function() {}
       actionsCh.take()
-        .then((nextActions) => {
+        .then(function(nextActions) {
           assert(nextActions[0] === actionA)
           assert(nextActions[1] === actionB)
         })
@@ -44,25 +44,25 @@ describe('ch', () => {
       actionsCh.put(actionB)
     })
 
-    it('resolves actions just once', (done) => {
+    it('resolves actions just once', function(done) {
       actionsCh.take()
-        .then(() => {
+        .then(function() {
           actionsCh.take().then(assert.bind(false))
           setTimeout(done, 100)
         })
         .then(done)
 
       for (var i = 0; i < 10; i++) {
-        actionsCh.put(() => {})
+        actionsCh.put(function() {})
       }
     })
 
-    it('flushes already resolved actions', (done) => {
+    it('flushes already resolved actions', function(done) {
       actionsCh.take()
-        .then(() => {
-          const action = () => {}
+        .then(function() {
+          var action = function() {}
           actionsCh.take()
-            .then((nextActions) => {
+            .then(function(nextActions) {
               assert(nextActions[0] === action)
               assert(nextActions.length == 1)
             })
@@ -70,14 +70,14 @@ describe('ch', () => {
           actionsCh.put(action)
         })
 
-      actionsCh.put(() => {})
+      actionsCh.put(function() {})
     })
 
-    it('allows to put an array', (done) => {
-      const actionA = () => {}
-      const actionB = () => {}
+    it('allows to put an array', function(done) {
+      var actionA = function() {}
+      var actionB = function() {}
       actionsCh.take()
-        .then((nextActions) => {
+        .then(function(nextActions) {
           assert(nextActions[0] === actionA)
           assert(nextActions[1] === actionB)
         })
