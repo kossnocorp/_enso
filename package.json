@@ -1,0 +1,47 @@
+{
+  "name": "enso",
+  "version": "0.1.0",
+  "description": "Minimal data flow",
+  "main": "index.js",
+  "scripts": {
+    "test": "env NODE_ENV=test karma start config/karma"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kossnocorp/enso"
+  },
+  "keywords": [
+    "react",
+    "flux",
+    "data",
+    "flow",
+    "fp"
+  ],
+  "author": "Sasha Koss <koss@nocorp.me>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kossnocorp/enso/issues"
+  },
+  "homepage": "https://github.com/kossnocorp/enso",
+  "devDependencies": {
+    "babel-core": "5.8.33",
+    "babel-loader": "5.3.3",
+    "babel-plugin-espower": "^1.1.0",
+    "babel-polyfill": "^6.0.16",
+    "immutable": "^3.7.5",
+    "json-loader": "^0.5.3",
+    "karma": "^0.13.15",
+    "karma-cli": "^0.1.1",
+    "karma-mocha": "^0.2.0",
+    "karma-mocha-reporter": "^1.1.1",
+    "karma-phantomjs-launcher": "^0.2.1",
+    "karma-sinon": "^1.0.4",
+    "karma-sourcemap-loader": "^0.3.6",
+    "karma-webpack": "^1.7.0",
+    "mocha": "kossnocorp/mocha#c629398",
+    "phantomjs": "^1.9.18",
+    "power-assert": "^1.1.0",
+    "sinon": "^1.17.2",
+    "webpack": "^1.12.3"
+  }
+}
