@@ -9,10 +9,8 @@ describe('loop', function() {
   })
 
   it('passes state modified by putted actions', function(done) {
-    loop(actionsCh, [], function(state) {
-      assert.deepEqual(state, [1, 2])
-      done()
-    })
+    var render = sinon.spy()
+    loop(actionsCh, [], render)
 
     actionsCh.put(function(state) {
       return state.concat(1)
@@ -21,6 +19,18 @@ describe('loop', function() {
     actionsCh.put(function(state) {
       return state.concat(2)
     })
+
+    setTimeout(function() {
+      assert(render.calledWith([1, 2]))
+      done()
+    }, 50)
+  })
+
+  it('makes initial render call with an initial state', function() {
+    var initialState = []
+    var render = sinon.spy()
+    loop(actionsCh, initialState, render)
+    assert(render.calledWithExactly(initialState, null))
   })
 
   it('passes next state once it is ready', function(done) {

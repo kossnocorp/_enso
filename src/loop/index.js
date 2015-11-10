@@ -20,4 +20,5 @@ module.exports = function(ch, initialState, render, rescue) {
   }
 
   renderLoop(initialState)
+  render(initialState, null)
 }
