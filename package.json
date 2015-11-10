@@ -24,9 +24,6 @@
   },
   "homepage": "https://github.com/kossnocorp/enso",
   "devDependencies": {
-    "babel-core": "5.8.33",
-    "babel-loader": "5.3.3",
-    "babel-plugin-espower": "^1.1.0",
     "babel-polyfill": "^6.0.16",
     "immutable": "^3.7.5",
     "json-loader": "^0.5.3",
@@ -38,10 +35,11 @@
     "karma-sinon": "^1.0.4",
     "karma-sourcemap-loader": "^0.3.6",
     "karma-webpack": "^1.7.0",
-    "mocha": "kossnocorp/mocha#c629398",
+    "mocha": "^2.3.3",
     "phantomjs": "^1.9.18",
     "power-assert": "^1.1.0",
     "sinon": "^1.17.2",
-    "webpack": "^1.12.3"
+    "webpack": "^1.12.3",
+    "webpack-espower-loader": "^1.0.1"
   }
 }

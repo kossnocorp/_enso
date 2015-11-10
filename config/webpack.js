@@ -4,7 +4,7 @@ module.exports = {
   output: {path: '/'},
   module: {
     loaders: [
-      {test: /\.js$/, loader: 'babel', exclude: /node_modules/},
+      {test: /test\.js$/, loader: 'webpack-espower', exclude: /node_modules/},
       {test: /\.json$/, loader: 'json'}
     ]
   }
