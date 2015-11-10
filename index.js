@@ -5,7 +5,7 @@ var actionsCh = ch()
 
 module.exports = {
   loop: function(initialState, render, rescue) {
-    loop(ch, initialState, render, rescue)
+    loop(actionsCh, initialState, render, rescue)
   },
 
   put: actionsCh.put
