@@ -1,5 +1,3 @@
-var nextTick = typeof window != 'undefined' ? window.setImmediate : process.nextTick.bind(process)
-
 module.exports = function(ch, initialState, render, rescue) {
   function renderLoop(state) {
     ch.take()
@@ -16,7 +14,7 @@ module.exports = function(ch, initialState, render, rescue) {
         if (rescue) {
           rescue(e)
         } else {
-          nextTick(function() { throw e })
+          setTimeout(function() { throw e }, 0)
         }
       })
   }

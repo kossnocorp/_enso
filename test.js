@@ -22,6 +22,6 @@ describe('enso', function() {
     setTimeout(function() {
       assert(render.calledWith([1]))
       done()
-    }, 0)
+    }, 25)
   })
 })

@@ -48,7 +48,7 @@ describe('ch', function() {
       actionsCh.take()
         .then(function() {
           actionsCh.take().then(assert.bind(false))
-          setTimeout(done, 0)
+          setTimeout(done, 1)
         })
 
       for (var i = 0; i < 10; i++) {

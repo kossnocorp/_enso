@@ -23,7 +23,7 @@ describe('loop', function() {
     setTimeout(function() {
       assert(render.calledWith([1, 2]))
       done()
-    }, 0)
+    }, 25)
   })
 
   it('makes initial render call with an initial state', function() {
@@ -50,8 +50,8 @@ describe('loop', function() {
         assert(render.calledWith([1]))
         assert(render.calledWith([1, 2]))
         done()
-      }, 0)
-    }, 0)
+      }, 25)
+    }, 25)
   })
 
   it('passes previous state', function(done) {
@@ -73,8 +73,8 @@ describe('loop', function() {
       setTimeout(function() {
         assert(states[1][1] === states[0][0])
         done()
-      }, 0)
-    }, 0)
+      }, 25)
+    }, 25)
   })
 
   describe('exception handling', function() {
@@ -139,7 +139,7 @@ describe('loop', function() {
         setTimeout(function() {
           assert(!exceptionListener.called)
           done()
-        }, 0)
+        }, 25)
       })
     })
   })
