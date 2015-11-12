@@ -1,23 +1,22 @@
-var EventEmitter = require('events')
-
 module.exports = function() {
-  var dispatcher = new EventEmitter()
+  var putCb
   var actionsQueue = []
 
   return {
     take: function() {
       return new Promise(function(resolve, reject) {
-        dispatcher.once('put', function() {
+        putCb = function() {
           resolve(actionsQueue.slice(0))
           actionsQueue.length = 0
-        })
+          putCb = null
+        }
       })
     },
 
     put: function(action) {
       actionsQueue.push.apply(actionsQueue, [].concat(action))
       setTimeout(function() {
-        dispatcher.emit('put')
+        if (putCb) putCb()
       }, 0)
     }
   }
