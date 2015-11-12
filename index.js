@@ -4,9 +4,6 @@ var loop = require('./src/loop')
 var actionsCh = ch()
 
 module.exports = {
-  loop: function(initialState, render, rescue) {
-    loop(actionsCh, initialState, render, rescue)
-  },
-
+  loop: loop.bind(null, actionsCh),
   put: actionsCh.put
 }
