@@ -23,7 +23,7 @@ describe('loop', function() {
     setTimeout(function() {
       assert(render.calledWith([1, 2]))
       done()
-    }, 50)
+    }, 0)
   })
 
   it('makes initial render call with an initial state', function() {
@@ -50,11 +50,11 @@ describe('loop', function() {
         assert(render.calledWith([1]))
         assert(render.calledWith([1, 2]))
         done()
-      }, 50)
-    }, 50)
+      }, 0)
+    }, 0)
   })
 
-  it('passes previous state', function() {
+  it('passes previous state', function(done) {
     var render = sinon.spy()
     var states = []
     loop(actionsCh, [], function(state, prevState) {
@@ -73,28 +73,54 @@ describe('loop', function() {
       setTimeout(function() {
         assert(states[1][1] === states[0][0])
         done()
-      }, 50)
-    }, 50)
+      }, 0)
+    }, 0)
   })
 
   describe('exception handling', function() {
-    afterEach(function() {
-      window.onerror = null
+    var isBrowser = typeof window != 'undefined'
+
+    var uncaughtExceptionListeners
+
+    beforeEach(function() {
+      if (isBrowser) {
+        uncaughtExceptionListeners = window.onerror
+        window.onerror = null
+      } else {
+        process.removeAllListeners('uncaughtException')
+        uncaughtExceptionListeners = process.listeners('uncaughtException')
+      }
     })
+
+    afterEach(function() {
+      if (isBrowser) {
+        window.onerror = uncaughtExceptionListeners
+      } else {
+        uncaughtExceptionListeners.forEach(process.on.bind(process, 'uncaughtException'))
+      }
+    })
+
+    function addUncaughtExceptionListener(fn) {
+      if (isBrowser) {
+        window.onerror = fn
+      } else {
+        process.on('uncaughtException', fn)
+      }
+    }
 
     context('when rescue function is not passed', function() {
       it('throw a global exception if action is failed', function(done) {
-        window.onerror = function(e) {
+        addUncaughtExceptionListener(function(e) {
           assert(e.toString().match(/ReferenceError/))
           done()
-        }
+        })
 
         loop(actionsCh, [], function() {})
         actionsCh.put(function() { nope() })
       })
     })
 
-    context('when rescue function is not passed', function() {
+    context('when rescue function is passed', function() {
       it('pass an exception to rescue function', function(done) {
         loop(actionsCh, [], function() {}, function(e) {
           assert(e.toString().match(/ReferenceError/))
@@ -104,15 +130,16 @@ describe('loop', function() {
       })
 
       it('do not throw a global exception', function(done) {
-        window.onerror = sinon.spy()
+        var exceptionListener = sinon.spy()
+        addUncaughtExceptionListener(exceptionListener)
 
         loop(actionsCh, [], function() {}, function() {})
         actionsCh.put(function() { nope() })
 
         setTimeout(function() {
-          assert(!window.onerror.called)
+          assert(!exceptionListener.called)
           done()
-        }, 50)
+        }, 0)
       })
     })
   })

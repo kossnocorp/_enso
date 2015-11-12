@@ -1,10 +1,13 @@
 {
   "name": "enso",
   "version": "0.1.0",
-  "description": "Minimal data flow",
+  "description": "Minimal data flow loop for async applications",
   "main": "index.js",
   "scripts": {
-    "test": "env NODE_ENV=test karma start config/karma"
+    "test": "npm run test-browser --single-run && npm run test-node",
+    "test-browser": "env NODE_ENV=test karma start config/karma",
+    "test-node": "mocha --require ./power_assert_loader ./test",
+    "test-node-watch": "npm run test-node -- --watch"
   },
   "repository": {
     "type": "git",
@@ -25,6 +28,7 @@
   "homepage": "https://github.com/kossnocorp/enso",
   "devDependencies": {
     "babel-polyfill": "^6.0.16",
+    "espower-loader": "^1.0.0",
     "immutable": "^3.7.5",
     "json-loader": "^0.5.3",
     "karma": "^0.13.15",

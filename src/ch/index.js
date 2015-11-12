@@ -1,3 +1,4 @@
+var nextTick = typeof window != 'undefined' ? window.setImmediate : process.nextTick.bind(process)
 var EventEmitter = require('events')
 
 module.exports = function() {
@@ -16,7 +17,7 @@ module.exports = function() {
 
     put: function(action) {
       actionsQueue.push.apply(actionsQueue, [].concat(action))
-      window.setImmediate(function() {
+      nextTick(function() {
         dispatcher.emit('put')
       })
     }

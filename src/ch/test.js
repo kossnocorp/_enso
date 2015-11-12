@@ -48,9 +48,8 @@ describe('ch', function() {
       actionsCh.take()
         .then(function() {
           actionsCh.take().then(assert.bind(false))
-          setTimeout(done, 100)
+          setTimeout(done, 0)
         })
-        .then(done)
 
       for (var i = 0; i < 10; i++) {
         actionsCh.put(function() {})
