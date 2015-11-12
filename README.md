@@ -1,4 +1,5 @@
 # Enso
+[![Build Status](https://travis-ci.org/kossnocorp/enso.svg?branch=master)](https://travis-ci.org/kossnocorp/enso)
 
 Minimal data flow loop for async applications.
 

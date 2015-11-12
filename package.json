@@ -4,7 +4,7 @@
   "description": "Minimal data flow loop for async applications",
   "main": "index.js",
   "scripts": {
-    "test": "npm run test-browser --single-run && npm run test-node",
+    "test": "npm run test-browser -- --single-run && npm run test-node",
     "test-browser": "env NODE_ENV=test karma start config/karma",
     "test-node": "mocha --require ./power_assert_loader ./test",
     "test-node-watch": "npm run test-node -- --watch"
