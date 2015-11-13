@@ -75,16 +75,6 @@ var Counter = React.createClass({
 module.exports = Counter
 ```
 
-### Exception Handling
-
-```js
-var rescue = function(e) {
-  // Process the exception
-}
-
-loop(initialState, render, rescue)
-```
-
 ### `requestAnimationFrame`
 
 ```js

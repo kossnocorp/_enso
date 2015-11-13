@@ -1,22 +1,16 @@
 module.exports = function(ch, initialState, render, rescue) {
   function renderLoop(state) {
-    ch.take()
-      .then(function(actions) {
-        return actions.reduce(function(stateAcc, action) {
-          return action(stateAcc)
-        }, state)
-      })
-      .then(function(nextState) {
-        render(nextState, state)
+    ch.take(function(actions) {
+      var nextState = actions.reduce(function(stateAcc, action) {
+        return action(stateAcc)
+      }, state)
+
+      render(nextState, state)
+
+      setTimeout(function() {
         renderLoop(nextState)
-      })
-      .catch(function(e) {
-        if (rescue) {
-          rescue(e)
-        } else {
-          setTimeout(function() { throw e }, 0)
-        }
-      })
+      }, 0)
+    })
   }
 
   renderLoop(initialState)
