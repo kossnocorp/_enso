@@ -1,4 +1,4 @@
-module.exports = function(ch, initialState, render, rescue) {
+module.exports = function(ch, initialState, render) {
   function renderLoop(state) {
     ch.take(function(actions) {
       var nextState = actions.reduce(function(stateAcc, action) {
