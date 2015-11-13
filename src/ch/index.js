@@ -3,7 +3,7 @@ module.exports = function() {
   var actionsQueue = []
 
   function callCb() {
-    if (putCb) putCb()
+    putCb && putCb()
   }
 
   return {
