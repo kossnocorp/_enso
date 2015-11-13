@@ -4,6 +4,8 @@
   "description": "Minimal data flow loop for async applications",
   "main": "index.js",
   "scripts": {
+    "build": "webpack --config ./config/webpack",
+    "build-uglify": "uglifyjs ./dist/enso.js --output ./dist/enso.min.js --source-map ./dist/enso.min.js.map --source-map-url enso.min.js.map --in-source-map ./dist/enso.js.map",
     "test": "npm run test-browser -- --single-run && npm run test-node",
     "test-browser": "env NODE_ENV=test karma start config/karma",
     "test-node": "mocha --require ./power_assert_loader ./test",
@@ -43,6 +45,7 @@
     "phantomjs": "^1.9.18",
     "power-assert": "^1.1.0",
     "sinon": "^1.17.2",
+    "uglify-js": "^2.6.0",
     "webpack": "^1.12.3",
     "webpack-espower-loader": "^1.0.1"
   }
