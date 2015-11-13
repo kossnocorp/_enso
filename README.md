@@ -27,7 +27,8 @@ TODO
 
 ### Master Enso in a Minute
 
-Here is a simplified example of pomodoro timer application which renders how many seconds passed:
+Here is a simplified example of timer application which renders
+how many seconds passed:
 
 ```js
 var enso = require('enso')
