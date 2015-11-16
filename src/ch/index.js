@@ -1,25 +1,25 @@
 module.exports = function() {
-  var putCb
-  var actionsQueue = []
+  var actCb
+  var actsQueue = []
 
   function callCb() {
-    putCb && putCb()
+    actCb && actCb()
   }
 
   return {
     take: function(cb) {
-      putCb = function() {
-        var actions = actionsQueue.slice(0)
-        actionsQueue.length = 0
-        putCb = null
-        cb(actions)
+      actCb = function() {
+        var acts = actsQueue.slice(0)
+        actsQueue.length = 0
+        actCb = null
+        cb(acts)
       }
 
-      if (actionsQueue.length > 0) callCb()
+      if (actsQueue.length > 0) callCb()
     },
 
-    put: function(action, async) {
-      actionsQueue.push.apply(actionsQueue, [].concat(action))
+    act: function(act, async) {
+      actsQueue.push.apply(actsQueue, [].concat(act))
 
       if (async) {
         setTimeout(callCb, 0)

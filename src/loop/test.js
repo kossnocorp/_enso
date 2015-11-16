@@ -3,28 +3,28 @@ var loop = require('./')
 var ch = require('../ch')
 
 describe('loop', function() {
-  var actionsCh
+  var actsCh
   beforeEach(function() {
-    actionsCh = ch()
+    actsCh = ch()
   })
 
   it('makes initial render call with an initial state', function() {
     var initialState = []
     var render = sinon.spy()
-    loop(actionsCh, initialState, render)
+    loop(actsCh, initialState, render)
     assert(render.calledWithExactly(initialState, null))
   })
 
-  context('when actions are sync', function() {
-    it('passes state modified by putted actions', function(done) {
+  context('when acts are sync', function() {
+    it('passes state modified by acts', function(done) {
       var render = sinon.spy()
-      loop(actionsCh, [], render)
+      loop(actsCh, [], render)
 
-      actionsCh.put(function(state) {
+      actsCh.act(function(state) {
         return state.concat(1)
       })
 
-      actionsCh.put(function(state) {
+      actsCh.act(function(state) {
         return state.concat(2)
       })
 
@@ -36,13 +36,13 @@ describe('loop', function() {
 
     it('passes next state once it is ready', function(done) {
       var render = sinon.spy()
-      loop(actionsCh, [], render)
+      loop(actsCh, [], render)
 
-      actionsCh.put(function(state) {
+      actsCh.act(function(state) {
         return state.concat(1)
       })
 
-      actionsCh.put(function(state) {
+      actsCh.act(function(state) {
         return state.concat(2)
       })
 
@@ -59,15 +59,15 @@ describe('loop', function() {
     it('passes previous state', function(done) {
       var render = sinon.spy()
       var states = []
-      loop(actionsCh, [], function(state, prevState) {
+      loop(actsCh, [], function(state, prevState) {
         states.push([state, prevState])
       })
 
-      actionsCh.put(function(state) {
+      actsCh.act(function(state) {
         return state.concat(1)
       })
 
-      actionsCh.put(function(state) {
+      actsCh.act(function(state) {
         return state.concat(2)
       })
 
@@ -78,16 +78,16 @@ describe('loop', function() {
     })
   })
 
-  context('when actions are async', function() {
-    it('passes state modified by putted actions', function(done) {
+  context('when acts are async', function() {
+    it('passes state modified by acts', function(done) {
       var render = sinon.spy()
-      loop(actionsCh, [], render)
+      loop(actsCh, [], render)
 
-      actionsCh.put(function(state) {
+      actsCh.act(function(state) {
         return state.concat(1)
       }, true)
 
-      actionsCh.put(function(state) {
+      actsCh.act(function(state) {
         return state.concat(2)
       }, true)
 
@@ -99,14 +99,14 @@ describe('loop', function() {
 
     it('passes next state once it is ready', function(done) {
       var render = sinon.spy()
-      loop(actionsCh, [], render)
+      loop(actsCh, [], render)
 
-      actionsCh.put(function(state) {
+      actsCh.act(function(state) {
         return state.concat(1)
       }, true)
 
       setTimeout(function() {
-        actionsCh.put(function(state) {
+        actsCh.act(function(state) {
           return state.concat(2)
         }, true)
 
@@ -123,16 +123,16 @@ describe('loop', function() {
     it('passes previous state', function(done) {
       var render = sinon.spy()
       var states = []
-      loop(actionsCh, [], function(state, prevState) {
+      loop(actsCh, [], function(state, prevState) {
         states.push([state, prevState])
       })
 
-      actionsCh.put(function(state) {
+      actsCh.act(function(state) {
         return state.concat(1)
       }, true)
 
       setTimeout(function() {
-        actionsCh.put(function(state) {
+        actsCh.act(function(state) {
           return state.concat(2)
         }, true)
 

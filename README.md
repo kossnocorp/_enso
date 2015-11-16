@@ -35,7 +35,7 @@ var enso = require('enso')
 
 // We'll need just these two functions:
 var loop = enso.loop
-var put = enso.put
+var act = enso.act
 
 // State of application supposed to be kept in one place. It could be an object,
 // immutable map or just a number like in the example.
@@ -57,10 +57,10 @@ loop(initialState, function(state, prevState) {
 })
 
 setInterval(function() {
-  // Put function accepts a function (action) that change the state.
-  // The action will be called immediately and then updated state
+  // act function accepts a function (act) that change the state.
+  // The act will be called immediately and then updated state
   // will go to our render loop:
-  put(function(state) {
+  act(function(state) {
     // Return new state
     return state + 1
   })
@@ -90,18 +90,18 @@ var render = function(count, prevCount) {
 loop(initialState, render)
 ```
 
-Actions:
+Acts:
 
 ```js
-var put = require('enso').put
+var act = require('enso').act
 
 module.exports = {
   inc: function() {
-    put(function(count) { return count + 1 })
+    act(function(count) { return count + 1 })
   },
 
   dec: function() {
-    put(function(count) { return count - 1 })
+    act(function(count) { return count - 1 })
   }
 }
 ```
@@ -110,7 +110,7 @@ Component:
 
 ```js
 var React = require('react')
-var actions = require('app/actions')
+var acts = require('app/acts')
 
 var Counter = React.createClass({
   propTypes: {
@@ -123,8 +123,8 @@ var Counter = React.createClass({
         Count: {this.props.count}
       </p>
       <ul>
-        <li><button onClick={actions.inc}>+</button></li>
-        <li><button onClick={actions.dec}>-</button></li>
+        <li><button onClick={acts.inc}>+</button></li>
+        <li><button onClick={acts.dec}>-</button></li>
       </ul>
     </div>
   }
@@ -149,7 +149,7 @@ var render = function(state, prevState) {
 ### `waitFor` Implementation
 
 ```js
-var put = require('enso').put
+var act = require('enso').act
 
 function fetchUserAndSettings(userId) {
   Promise
@@ -161,11 +161,11 @@ function fetchUserAndSettings(userId) {
         fetchSettings(null, resolve)
       })
     ])
-    .then(put)
+    .then(act)
 }
 
 function fetchUser(id, resolve) {
-  resolve = resolve || put
+  resolve = resolve || act
 
   fetch(`/users/${id}`)
     .then(function(resp) { return resp.json() })
@@ -177,7 +177,7 @@ function fetchUser(id, resolve) {
 }
 
 function fetchSettings(_, resolve) {
-  resolve = resolve || put
+  resolve = resolve || act
 
   fetch('/settings')
     .then(function(resp) { return resp.json() })

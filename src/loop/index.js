@@ -1,8 +1,8 @@
 module.exports = function(ch, initialState, render) {
   function renderLoop(state) {
-    ch.take(function(actions) {
-      var nextState = actions.reduce(function(stateAcc, action) {
-        return action(stateAcc)
+    ch.take(function(acts) {
+      var nextState = acts.reduce(function(stateAcc, act) {
+        return act(stateAcc)
       }, state)
 
       render(nextState, state)

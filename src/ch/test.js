@@ -2,85 +2,85 @@ var assert = require('power-assert')
 var ch = require('./')
 
 describe('ch', function() {
-  var actionsCh
+  var actsCh
   beforeEach(function() {
-    actionsCh = ch()
+    actsCh = ch()
   })
 
-  it('returns an object with take & put functions', function() {
-    assert(typeof actionsCh == 'object')
-    assert(typeof actionsCh.take == 'function')
-    assert(typeof actionsCh.put == 'function')
+  it('returns an object with take & act functions', function() {
+    assert(typeof actsCh == 'object')
+    assert(typeof actsCh.take == 'function')
+    assert(typeof actsCh.act == 'function')
   })
 
-  describe('take & put', function() {
-    it('calls passed function when action is putted', function(done) {
-      var action = function() {}
-      actionsCh.take(function(nextActions) {
-        assert(nextActions[0] === action)
+  describe('take & act', function() {
+    it('calls passed function when act is called', function(done) {
+      var act = function() {}
+      actsCh.take(function(nextActs) {
+        assert(nextActs[0] === act)
         done()
       })
 
-      actionsCh.put(action)
+      actsCh.act(act)
     })
 
     it('allows to put an array', function(done) {
-      var actionA = function() {}
-      var actionB = function() {}
-      actionsCh.take(function(nextActions) {
-        assert(nextActions[0] === actionA)
-        assert(nextActions[1] === actionB)
+      var actA = function() {}
+      var actB = function() {}
+      actsCh.take(function(nextActs) {
+        assert(nextActs[0] === actA)
+        assert(nextActs[1] === actB)
         done()
       })
 
-      actionsCh.put([actionA, actionB])
+      actsCh.act([actA, actB])
     })
 
-    it('flushes already resolved actions', function(done) {
-      actionsCh.take(function() {
-        var action = function() {}
+    it('flushes already resolved acts', function(done) {
+      actsCh.take(function() {
+        var act = function() {}
 
-        actionsCh.take(function(nextActions) {
-          assert(nextActions[0] === action)
-          assert(nextActions.length == 1)
+        actsCh.take(function(nextActs) {
+          assert(nextActs[0] === act)
+          assert(nextActs.length == 1)
           done()
         })
 
-        actionsCh.put(action)
+        actsCh.act(act)
       })
 
-      actionsCh.put(function() {})
+      actsCh.act(function() {})
     })
 
-    it('calls passed function if action was putted before take call', function() {
+    it('calls passed function if act was putted before take call', function() {
       var spy = sinon.spy()
-      actionsCh.put(function() {})
-      actionsCh.take(spy)
+      actsCh.act(function() {})
+      actsCh.take(spy)
       assert(spy.calledOnce)
     })
 
-    describe('async put', function() {
-      it('resolves the promise with array of consequentially putted actions', function(done) {
-        var actionA = function() {}
-        var actionB = function() {}
-        actionsCh.take(function(nextActions) {
-          assert(nextActions[0] === actionA)
-          assert(nextActions[1] === actionB)
+    describe('async act', function() {
+      it('resolves the promise with array of consequentially putted acts', function(done) {
+        var actA = function() {}
+        var actB = function() {}
+        actsCh.take(function(nextActs) {
+          assert(nextActs[0] === actA)
+          assert(nextActs[1] === actB)
           done()
         })
 
-        actionsCh.put(actionA, true)
-        actionsCh.put(actionB, true)
+        actsCh.act(actA, true)
+        actsCh.act(actB, true)
       })
 
-      it('resolves actions just once', function(done) {
-        actionsCh.take(function() {
-          actionsCh.take(assert.bind(false))
+      it('resolves acts just once', function(done) {
+        actsCh.take(function() {
+          actsCh.take(assert.bind(false))
           setTimeout(done, 1)
         })
 
         for (var i = 0; i < 10; i++) {
-          actionsCh.put(function() {}, true)
+          actsCh.act(function() {}, true)
         }
       })
     })
