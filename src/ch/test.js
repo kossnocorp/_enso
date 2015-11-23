@@ -58,31 +58,5 @@ describe('ch', function() {
       actsCh.take(spy)
       assert(spy.calledOnce)
     })
-
-    describe('async act', function() {
-      it('resolves the promise with array of consequentially putted acts', function(done) {
-        var actA = function() {}
-        var actB = function() {}
-        actsCh.take(function(nextActs) {
-          assert(nextActs[0] === actA)
-          assert(nextActs[1] === actB)
-          done()
-        })
-
-        actsCh.act(actA, true)
-        actsCh.act(actB, true)
-      })
-
-      it('resolves acts just once', function(done) {
-        actsCh.take(function() {
-          actsCh.take(assert.bind(false))
-          setTimeout(done, 1)
-        })
-
-        for (var i = 0; i < 10; i++) {
-          actsCh.act(function() {}, true)
-        }
-      })
-    })
   })
 })
