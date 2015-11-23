@@ -1,6 +1,6 @@
 {
   "name": "enso",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Minimal data flow loop for async applications",
   "main": "index.js",
   "scripts": {
