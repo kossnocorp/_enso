@@ -12,7 +12,8 @@ var enso = require('./')
 
 describe('enso', function() {
   it('exports loop & act functions', function() {
-    assert(enso.loop typeof 'function')
+    assert(typeof enso.loop == 'function')
+    assert(typeof enso.act == 'function')
   })
 
   it('wraps channel & loop', function(done) {

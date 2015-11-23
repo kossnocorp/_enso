@@ -18,14 +18,9 @@ module.exports = function() {
       if (actsQueue.length > 0) callCb()
     },
 
-    act: function(act, async) {
+    act: function(act) {
       actsQueue.push.apply(actsQueue, [].concat(act))
-
-      if (async) {
-        setTimeout(callCb, 0)
-      } else {
-        callCb()
-      }
+      callCb()
     }
   }
 }

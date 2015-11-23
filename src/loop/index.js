@@ -6,7 +6,7 @@ module.exports = function(ch, initialState, render) {
       }, state)
 
       render(nextState, state)
-      setTimeout(renderLoop.bind(null,nextState), 0)
+      setTimeout(renderLoop.bind(null, nextState), 0)
     })
   }
 
