@@ -1,6 +1,6 @@
-module.exports = function(ch, initialState, render) {
+module.exports = function(take, initialState, render) {
   function renderLoop(state) {
-    ch.take(function(acts) {
+    take(function(acts) {
       var nextState = acts.reduce(function(stateAcc, act) {
         return act(stateAcc)
       }, state)

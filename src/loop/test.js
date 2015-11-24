@@ -11,13 +11,13 @@ describe('loop', function() {
   it('makes initial render call with an initial state', function() {
     var initialState = []
     var render = sinon.spy()
-    loop(actsCh, initialState, render)
+    loop(actsCh.take, initialState, render)
     assert(render.calledWithExactly(initialState, null))
   })
 
   it('passes state modified by acts', function(done) {
     var render = sinon.spy()
-    loop(actsCh, [], render)
+    loop(actsCh.take, [], render)
 
     actsCh.act(function(state) {
       return state.concat(1)
@@ -35,7 +35,7 @@ describe('loop', function() {
 
   it('passes next state once it is ready', function(done) {
     var render = sinon.spy()
-    loop(actsCh, [], render)
+    loop(actsCh.take, [], render)
 
     actsCh.act(function(state) {
       return state.concat(1)
@@ -58,7 +58,7 @@ describe('loop', function() {
   it('passes previous state', function(done) {
     var render = sinon.spy()
     var states = []
-    loop(actsCh, [], function(state, prevState) {
+    loop(actsCh.take, [], function(state, prevState) {
       states.push([state, prevState])
     })
 

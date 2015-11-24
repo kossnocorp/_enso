@@ -4,6 +4,6 @@ var loop = require('./src/loop')
 var actsCh = ch()
 
 module.exports = {
-  loop: loop.bind(null, actsCh),
+  loop: loop.bind(null, actsCh.take),
   act: actsCh.act
 }
