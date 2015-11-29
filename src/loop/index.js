@@ -2,7 +2,12 @@ module.exports = function(take, initialState, render) {
   function renderLoop(state) {
     take(function(acts) {
       var nextState = acts.reduce(function(stateAcc, act) {
-        return act(stateAcc)
+        try {
+          return act(stateAcc)
+        } catch(err) {
+          setTimeout(function() { throw err })
+          return stateAcc
+        }
       }, state)
 
       render(nextState, state)
