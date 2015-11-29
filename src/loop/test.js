@@ -15,7 +15,7 @@ describe('loop', function() {
     assert(render.calledWithExactly(initialState, null))
   })
 
-  it('passes state modified by acts', function(done) {
+  it('passes state modified by acts', function() {
     var render = sinon.spy()
     loop(actsCh.take, [], render)
 
@@ -27,13 +27,10 @@ describe('loop', function() {
       return state.concat(2)
     })
 
-    setTimeout(function() {
-      assert(render.calledWith([1, 2]))
-      done()
-    }, 25)
+    assert(render.calledWith([1, 2]))
   })
 
-  it('passes next state once it is ready', function(done) {
+  it('passes next state once it is ready', function() {
     var render = sinon.spy()
     loop(actsCh.take, [], render)
 
@@ -46,16 +43,11 @@ describe('loop', function() {
     })
 
     assert(render.calledWith([1]))
-    assert(render.calledTwice)
-
-    setTimeout(function() {
-      assert(render.calledWith([1, 2]))
-      assert(render.calledThrice)
-      done()
-    }, 25)
+    assert(render.calledWith([1, 2]))
+    assert(render.calledThrice)
   })
 
-  it('passes previous state', function(done) {
+  it('passes previous state', function() {
     var render = sinon.spy()
     var states = []
     loop(actsCh.take, [], function(state, prevState) {
@@ -70,9 +62,6 @@ describe('loop', function() {
       return state.concat(2)
     })
 
-    setTimeout(function() {
-      assert(states[1][1] === states[0][0])
-      done()
-    }, 25)
+    assert(states[1][1] === states[0][0])
   })
 })

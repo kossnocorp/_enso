@@ -16,13 +16,10 @@ describe('enso', function() {
     assert(typeof enso.act == 'function')
   })
 
-  it('wraps channel & loop', function(done) {
+  it('wraps channel & loop', function() {
     var render = sinon.spy()
     enso.loop([], render)
     enso.act(function(state) { return state.concat(1) })
-    setTimeout(function() {
-      assert(render.calledWith([1]))
-      done()
-    }, 25)
+    assert(render.calledWith([1]))
   })
 })
