@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.3.0 (29 Nov 2015)
+
+- Handle act exceptions, so loop will continue processing even if one of acts
+  is failed
+
 ## v0.2.1 (29 Nov 2015)
 
 - Now render is always sync
