@@ -17,8 +17,8 @@ TODO
 
 * It's tiny and simple:
   - It has 0 dependencies
-  - Less than 650 B
-  - Less than 45 LOC
+  - Less than 700 B
+  - Less than 50 LOC
   - It has just 2 API methods (and one of them supposed to be called just once)
   - You'll need just a minute to master enso
 * It's universal and works both in Node.js and a browser
