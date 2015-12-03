@@ -150,4 +150,35 @@ describe('loop', function() {
       })
     })
   })
+
+  describe('act processors', function() {
+    it('it allows to process act results', function(done) {
+      var initialState = [0]
+      var processor = sinon.spy(function(state) { return state })
+      var addOne = function(state) { return state.concat(1) }
+      loop(actsCh.take, initialState, function(newState, prevState) {
+        // Wait for second render call
+        if (prevState) {
+          assert(processor.calledWithExactly(newState, initialState, addOne))
+          done()
+        }
+      }, processor)
+      actsCh.act(addOne)
+    })
+
+    it('it allows to alter the result', function(done) {
+      var initialState = [0]
+      var processor = function(state) {
+        return ['a', 'b']
+      }
+      loop(actsCh.take, initialState, function(newState, prevState) {
+        // Wait for second render call
+        if (prevState) {
+          assert.deepEqual(newState, ['a', 'b'])
+          done()
+        }
+      }, processor)
+      actsCh.act(function(state) { return state.concat(1) })
+    })
+  })
 })

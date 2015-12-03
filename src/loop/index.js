@@ -1,9 +1,10 @@
-module.exports = function(take, initialState, render) {
+module.exports = function(take, initialState, render, processor) {
   function renderLoop(state) {
     take(function(acts) {
       var nextState = acts.reduce(function(stateAcc, act) {
         try {
-          return act(stateAcc)
+          const newState = act(stateAcc)
+          return processor ? processor(newState, stateAcc, act) : newState
         } catch(err) {
           setTimeout(function() { throw err })
           return stateAcc
