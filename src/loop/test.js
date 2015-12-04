@@ -94,59 +94,147 @@ describe('loop', function() {
       }
     })
 
-    it('keeps processing acts when one of act failed', function(done) {
-      var render = sinon.spy()
-      loop(actsCh.take, [], render)
+    context('when act throws an exception', function() {
+      it('keeps processing acts when one of act failed', function(done) {
+        var render = sinon.spy()
+        loop(actsCh.take, [], render)
 
-      actsCh.act(function(state) {
-        return state.concat(1)
-      })
+        actsCh.act(function(state) {
+          return state.concat(1)
+        })
 
-      actsCh.act(function(state) {
-        boom()
-        return state.concat(2)
-      })
+        actsCh.act(function(state) {
+          boom()
+          return state.concat(2)
+        })
 
-      actsCh.act(function(state) {
-        return state.concat(3)
-      })
-
-      assert(render.calledWith([1, 3]))
-
-      // Wait for async exception throw
-      setTimeout(done)
-    })
-
-    it('throws uncaught exception', function(done) {
-      loop(actsCh.take, [], function() {})
-      actsCh.act(function() { boom() })
-
-      setTimeout(function() {
-        assert(errSpy.called)
-        done()
-      })
-    })
-
-    it('keeps loop running', function(done) {
-      var render = sinon.spy()
-      loop(actsCh.take, [], render)
-
-      actsCh.act(function(state) {
-        return state.concat(1)
-      })
-
-      actsCh.act(function(state) {
-        boom()
-      })
-
-      // Wait for async exception throw
-      setTimeout(function() {
         actsCh.act(function(state) {
           return state.concat(3)
         })
 
         assert(render.calledWith([1, 3]))
-        done()
+
+        // Wait for async exception throw
+        setTimeout(done)
+      })
+
+      it('throws uncaught exception', function(done) {
+        loop(actsCh.take, [], function() {})
+        actsCh.act(function() { boom() })
+
+        setTimeout(function() {
+          assert(errSpy.called)
+          done()
+        })
+      })
+
+      it('keeps loop running', function(done) {
+        var render = sinon.spy()
+        loop(actsCh.take, [], render)
+
+        actsCh.act(function(state) {
+          return state.concat(1)
+        })
+
+        actsCh.act(function(state) {
+          boom()
+        })
+
+        // Wait for async exception throw
+        setTimeout(function() {
+          actsCh.act(function(state) {
+            return state.concat(3)
+          })
+
+          assert(render.calledWith([1, 3]))
+          done()
+        })
+      })
+    })
+
+    context('when render throws an exception', function() {
+      context('when initial render is failing', function() {
+        it('keeps loop running', function(done) {
+          var initial = true
+          var render = sinon.spy(function(state) {
+            if (initial) {
+              initial = false
+              boom()
+            }
+          })
+          loop(actsCh.take, [], render)
+
+          setTimeout(function() {
+            actsCh.act(function(state) {
+              return state.concat(1)
+            })
+            assert(render.calledWith([1]))
+            done()
+          })
+        })
+
+        it('throws uncaught exception', function(done) {
+          var initial = true
+          loop(actsCh.take, [], function(state) {
+            if (initial) {
+              initial = false
+              boom()
+            }
+          })
+
+          setTimeout(function() {
+            assert(errSpy.called)
+            done()
+          })
+        })
+      })
+
+      context('when loop render is failing', function() {
+        it('keeps loop running', function(done) {
+          var render = sinon.spy(function(state) {
+            if (state.length == 2) {
+              boom()
+            }
+          })
+          loop(actsCh.take, [], render)
+
+          actsCh.act(function(state) {
+            return state.concat(1)
+          })
+
+          actsCh.act(function(state) {
+            return state.concat(2)
+          })
+
+          // Wait for async exception throw
+          setTimeout(function() {
+            actsCh.act(function(state) {
+              return state.concat(3)
+            })
+
+            assert(render.calledWith([1, 2, 3]))
+            done()
+          })
+        })
+
+        it('throws uncaught exception', function(done) {
+          var initial = true
+          loop(actsCh.take, [], function(state) {
+            if (initial) {
+              initial = false
+            } else {
+              boom()
+            }
+          })
+          actsCh.act(function(state) {
+            return state.concat(1)
+          })
+
+          setTimeout(function() {
+            assert(errSpy.called)
+            done()
+          })
+        })
       })
     })
   })

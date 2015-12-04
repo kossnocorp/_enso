@@ -1,9 +1,18 @@
 module.exports = function(take, initialState, render, processor) {
+  function loopRender(state, prevState) {
+    try {
+      render(state, prevState)
+    } catch(err) {
+      setTimeout(function() { throw err })
+    }
+    renderLoop(state)
+  }
+
   function renderLoop(state) {
     take(function(acts) {
       var nextState = acts.reduce(function(stateAcc, act) {
         try {
-          const newState = act(stateAcc)
+          var newState = act(stateAcc)
           return processor ? processor(newState, stateAcc, act) : newState
         } catch(err) {
           setTimeout(function() { throw err })
@@ -11,11 +20,9 @@ module.exports = function(take, initialState, render, processor) {
         }
       }, state)
 
-      render(nextState, state)
-      renderLoop(nextState)
+      loopRender(nextState, state)
     })
   }
 
-  renderLoop(initialState)
-  render(initialState, null)
+  loopRender(initialState, null)
 }
