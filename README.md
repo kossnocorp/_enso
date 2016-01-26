@@ -239,6 +239,36 @@ function fetchSettings(_, resolve) {
 }
 ```
 
+### Processors (Middlewares)
+
+```js
+var loop = require('enso').loop
+
+loop(
+  [],
+  function(state, prevState) {
+    if (prevState === null) {
+      console.log('Hello, dear timer user!')
+    }
+    // Render application state
+    console.log(state)
+  },
+  function(actions) {
+
+  }
+)
+
+setInterval(function() {
+  // act function accepts a function (act) that change the state.
+  // The act will be called immediately and then updated state
+  // will go to our render loop:
+  act(function(state) {
+    // Return new state
+    return state + 1
+  })
+}, 1000)
+```
+
 ## License
 
 MIT
