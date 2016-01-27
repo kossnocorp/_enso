@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.4.0 (26 Jan 2016)
+## v0.4.0 (27 Jan 2016)
 
 - Act processor
 - Handle render exceptions
