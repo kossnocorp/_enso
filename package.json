@@ -1,11 +1,13 @@
 {
   "name": "enso",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Minimal data flow loop for async applications",
   "main": "index.js",
+  "typings": "./typings.d.ts",
   "scripts": {
     "build": "webpack --config ./config/webpack",
-    "build-uglify": "uglifyjs ./dist/enso.js --output ./dist/enso.min.js --source-map ./dist/enso.min.js.map --source-map-url enso.min.js.map --in-source-map ./dist/enso.js.map",
+    "build-uglify":
+      "uglifyjs ./dist/enso.js --output ./dist/enso.min.js --source-map ./dist/enso.min.js.map --source-map-url enso.min.js.map --in-source-map ./dist/enso.js.map",
     "test": "npm run test-browser -- --single-run && npm run test-node",
     "test-browser": "env NODE_ENV=test karma start config/karma",
     "test-node": "mocha --require ./power_assert_loader ./test",
@@ -18,13 +20,7 @@
     "type": "git",
     "url": "https://github.com/kossnocorp/enso"
   },
-  "keywords": [
-    "react",
-    "flux",
-    "data",
-    "flow",
-    "fp"
-  ],
+  "keywords": ["react", "flux", "data", "flow", "fp"],
   "author": "Sasha Koss <koss@nocorp.me>",
   "license": "MIT",
   "bugs": {
