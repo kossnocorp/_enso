@@ -7,7 +7,7 @@ Minimalistic TypeScript-first state managment library for Node.js and browser.
 **TypeScript-first**. Enso ensures complete type-safety.
 
 ```ts
-import { createState } from 'enso'
+import createState from 'enso'
 
 // Define state
 type State = number

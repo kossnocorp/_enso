@@ -1,5 +1,5 @@
 import assert from 'assert'
-import { createState } from '.'
+import createState from '.'
 import sinon from 'sinon'
 
 describe('enso', () => {

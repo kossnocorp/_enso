@@ -5,7 +5,7 @@ export type Listener<State> = (
   prevState: State | undefined
 ) => void
 
-export function createState<State>(initialState: State) {
+export default function createState<State>(initialState: State) {
   let currentState = initialState
   const listeners: Listener<State>[] = []
   const setters: Setter<State>[] = []
