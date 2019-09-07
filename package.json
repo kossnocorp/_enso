@@ -1,0 +1,29 @@
+{
+  "name": "enso",
+  "version": "1.0.0-alpha.1",
+  "description": "Minimalistic TypeScript-first state managment library for Node.js and browser",
+  "keywords": [
+    "state",
+    "TypeScript"
+  ],
+  "main": "index.js",
+  "repository": "https://github.com/kossnocorp/enso",
+  "author": "Sasha Koss <koss@nocorp.me>",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-typescript": "^7.3.3",
+    "@types/jest": "^24.0.13",
+    "@types/node": "^12.0.4",
+    "@types/sinon": "^7.0.13",
+    "babel-loader": "^8.0.6",
+    "babel-preset-power-assert": "^3.0.0",
+    "jest": "^24.8.0",
+    "power-assert": "^1.6.1",
+    "prettier": "^1.17.1",
+    "sinon": "^7.3.2",
+    "typescript": "^3.6.2"
+  },
+  "dependencies": {}
+}
