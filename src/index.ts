@@ -5,9 +5,9 @@ export type Listener<State> = (
   prevState: State | undefined
 ) => void
 
-export default function createState<State>(initialState: State) {
-  let currentState = initialState
-  const listeners: Listener<State>[] = []
+export default function createState<State>() {
+  let currentState: State
+  let listener: Listener<State>
   const setters: Setter<State>[] = []
   let updateTimeout: number
 
@@ -23,14 +23,15 @@ export default function createState<State>(initialState: State) {
       const newState = setters.reduce((s, setter) => setter(s), currentState)
       const prevState = currentState
       currentState = newState
-      listeners.forEach(listener => listener(newState, prevState))
+      listener(newState, prevState)
     })
   }
 
-  function loop(listener: Listener<State>) {
-    listeners.push(listener)
-    listener(currentState, undefined)
+  function start(initialState: State, listenerArg: Listener<State>) {
+    currentState = initialState
+    listener = listenerArg
+    listener(initialState, undefined)
   }
 
-  return { get, set, loop }
+  return { get, set, start }
 }

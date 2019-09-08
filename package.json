@@ -1,6 +1,6 @@
 {
   "name": "enso",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "description": "Minimalistic TypeScript-first state managment library for Node.js and browser",
   "keywords": [
     "state",
