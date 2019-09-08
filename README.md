@@ -17,11 +17,6 @@ type State = number
 // Create typed operations on state
 const { get, set, start } = createState<State>()
 
-// // Get the current state
-// const counter = get()
-// console.log(counter)
-// //=> 0
-
 // Update state every second
 setInterval(() => set(counter => counter + 1), 1000)
 
@@ -34,6 +29,10 @@ start(initialCounter, (newCounter, prevCounter) =>
 //=> 1 0
 //=> 2 1
 //=> ...
+
+// Get the current state
+setTimeout(() => console.log(get()), 3000)
+//=> 3
 ```
 
 ## License
